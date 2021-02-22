@@ -1,4 +1,4 @@
-source /cellar/users/snwright/Git/examples/GWAS/RunConfig.conf
+source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 $2
 
 # filter for common snps
 srun -l plink --bed ${bedfile} --bim ${bimfile} --fam ${famfile} \
