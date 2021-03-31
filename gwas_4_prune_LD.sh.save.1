@@ -7,7 +7,8 @@ srun -l plink --bfile ${outDir}${outName}.hwe_dropped \
 --indep-pairwise $LD_window $LD_shift $LD_r2 --make-bed \
 --out ${outDir}${outName}.LD_one
 
-## Getting stuck here???
+## Getting stuck ^^^ in the pruning step here. Unclear why? Porbably the pairwise?
+## Change window size etc.
 
 srun -l plink --bfile ${outDir}${outName}.hwe_dropped \
 --extract ${outDir}${outName}.LD_one.prune.in --make-bed \
