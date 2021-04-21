@@ -12,6 +12,13 @@ else
 	in_fam=$fam_file
 fi
 
+## produce the missingness statistics
+srun -l plink --bed $in_bed --bim $in_bim --fam $in_fam --missing \
+--out ${outDir}${outName}
+
+## Plot histograms of the missingess.
+srun -l python /cellar/users/snwright/Git/gwas_pipeline/hist_miss.py ${outDir}${outName} $outName
+
 
 aspercent=$aspercent=$(echo $missStart " / 100" | bc -l)
 genomind_1=$(echo "1-"$aspercent | bc -l)
