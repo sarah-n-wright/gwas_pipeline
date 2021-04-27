@@ -1,4 +1,4 @@
-source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 $2
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 $2
 
 if [ "$case_list" = "" ]
 then

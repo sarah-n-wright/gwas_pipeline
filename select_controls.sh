@@ -1,4 +1,4 @@
-source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 $2
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 $2
 echo ${outDir}${outName}.updated_phe.fam
 
 n_cases=$(awk '{if ($6==2) {s++}}END{print s}' ${outDir}${outName}.updated_phe.fam)

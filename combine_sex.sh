@@ -1,6 +1,6 @@
-source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 "X"
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 "X"
 xPref=${outDir}${outName}.updated_phe
-source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 "Y"
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 "Y"
 yPref=${outDir}${outName}.updated_phe
 echo "------------------------------>Combining sex chrs<-------------------------"
 
@@ -16,10 +16,10 @@ then
 		merge_list=${outDir}${baseName}.combine_sexCHR_merge_list.txt
 		> $merge_list
 		echo $yPref.bed $yPref.bim $yPref.fam >> $merge_list
-		#source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 "XY"
+		#source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 "XY"
 		#if test -f $bedfile
 		#then
-			#source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 "XY"
+			#source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 "XY"
 			#xyPref=${outDir}${outName}.updated_phe
 			#echo $xyPref.bed $xyPref.bim $xyPref.fam >> $merge_list
 		#fi

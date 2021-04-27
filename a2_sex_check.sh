@@ -1,5 +1,5 @@
 
-source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 $2
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 $2
 
 echo "------------------------------>Performing Sex Check<-------------------------"
 
@@ -28,7 +28,7 @@ then
 		--check-sex $sexFmin $sexFmax \
 		--out ${outDir}${baseName}.sex_check
 
-		srun -l python /cellar/users/snwright/Git/gwas_pipeline/gender_check.py ${outDir}${baseName}.sex_check $baseName		
+		srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/gender_check.py ${outDir}${baseName}.sex_check $baseName		
 
 		## insert methods to make file discordant_individuals.txt
 		grep "PROBLEM" ${outDir}${baseName}.sex_check.sexcheck | awk '{print $1, $2}' >${outDir}${baseName}discordant_individuals.txt

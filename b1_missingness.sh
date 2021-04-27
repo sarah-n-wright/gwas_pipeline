@@ -1,4 +1,4 @@
-source /cellar/users/snwright/Git/gwas_pipeline/Configs/$1 $2
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 $2
 
 # iteratively filter for missingness
 if [ $sexInfo -eq 1 ]
@@ -17,7 +17,7 @@ srun -l plink --bed $in_bed --bim $in_bim --fam $in_fam --missing \
 --out ${outDir}${outName}
 
 ## Plot histograms of the missingess.
-srun -l python /cellar/users/snwright/Git/gwas_pipeline/hist_miss.py ${outDir}${outName} $outName
+srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/hist_miss.py ${outDir}${outName} $outName
 
 
 aspercent=$aspercent=$(echo $missStart " / 100" | bc -l)
