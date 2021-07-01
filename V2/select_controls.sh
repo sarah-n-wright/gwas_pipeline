@@ -7,7 +7,7 @@ exclude_patt=$6 #regex of values to exclude, "" for no exclusion
 hesin_file=/nrnb/ukb-majithia/20201215_hesin_diag.txt
 
 # Get configuration values from any chromosome
-source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$config $chrom
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/Configs/$config $chrom
 echo ${outDir}${outName}.$file_suff.fam
 
 # Get number of cases
