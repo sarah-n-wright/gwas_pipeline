@@ -1,4 +1,4 @@
-source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/Configs/$1 $2
+source /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/Configs/$1 $2
 cases=$3
 
 if [ "$cases" == "" ]
