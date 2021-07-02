@@ -68,7 +68,7 @@ echo "------------------------------>completed all filters<---------------------
 awk -v out=${outDir}${outName}.patt_temp '{print $2 > out}' \
 	${outDir}${outName}.filtered_for_missingness.bim
 
-grep -vxF -f ${outDir}${outName}.patt_temp \
+grep -vwF -f ${outDir}${outName}.patt_temp \
         ${outDir}${outName}.updated_phe.bim | \
 	awk -v out=${outDir}${outName}.excludeVAR '{print $2 > out}'
 
