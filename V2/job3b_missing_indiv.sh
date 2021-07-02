@@ -45,4 +45,8 @@ mv ${outDir}${baseName}.keepID ${outDir}${baseName}.sex.keepID
 grep -vxF -f ${outDir}${baseName}.miss.removeID \
         ${outDir}${baseName}.sex.keepID > ${outDir}${baseName}.keepID
 
-#rm ${outDir}${baseName}.job2.keepID
+
+# Get a subset of individuals for LD while we are here.
+shuf -n 10000 ${outDir}${baseName}.keepID > ${outDir}${baseName}.LD_subset.keepID
+
+rm ${outDir}${baseName}*filtered_for_missingness*
