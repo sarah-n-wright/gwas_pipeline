@@ -16,14 +16,14 @@ out=$v1_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_JOB_ID}.out
 
 source ${script_path}preLD_b2_miss_case_control.sh $config $CHR $out
 
-#echo "############################ GWAS 2 COMPLETED ##########################"
+#echo "############################ Missing CC COMPLETED ##########################"
 
-#source ${script_path}preLD_c1_hwe.sh $config $CHR $out
+source ${script_path}preLD_c1_hwe.sh $config $CHR $out
 
-#echo "############################ GWAS 3 COMPLETED ##########################"
+#echo "############################ HWE COMPLETED ##########################"
 
-#source ${script_path}preLD_d1_invariant.sh $config $CHR $out
+source ${script_path}preLD_d1_invariant.sh $config $CHR $out
 
 
-#echo "############################ GWAS 4 COMPLETED ##########################"
+#echo "############################ MAF filter COMPLETED ##########################"
 
