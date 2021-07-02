@@ -4,7 +4,7 @@ source ${script_path}Configs/$1 $2
 file_pref=${outDir}${outName}.updated_phe
 
 srun -l plink2 --bfile $file_pref \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.miss.keepID \
 	--exclude ${outDir}${outName}.excludeVAR \
 	--freq --out ${outDir}final_stats/${outName}
 echo "Step\tFrequency"
@@ -13,14 +13,14 @@ echo "Step\tFrequency"
 echo "------------------------------>completed frequency<-----------------------"
 
 srun -l plink2 --bfile $file_pref \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.miss.keepID \
 	--exclude ${outDir}${outName}.excludeVAR \
 	--freq counts --out ${outDir}final_stats/${outName}
 
 echo "------------------------------>completed counts<-----------------------" 
 
 srun -l plink2 --bfile  $file_pref \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.miss.keepID \
 	--exclude ${outDir}${outName}.excludeVAR \
 	--maf $minMAF --max-maf $maxMAF \
 	--make-just-bim --out ${outDir}${outName}.extractVAR

@@ -7,7 +7,7 @@ in_fam=${outDir}${outName}.updated_phe.fam
 
 ## produce the missingness statistics
 srun -l plink --bed $in_bed --bim $in_bim --fam $in_fam \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.sex.keepID \
 	--missing \
 	--out ${outDir}${outName}
 
@@ -19,7 +19,7 @@ aspercent=$(echo $missStart " / 100" | bc -l)
 genomind_1=$(echo "1-"$aspercent | bc -l)
 
 srun -l plink2 --bed $in_bed --bim $in_bim --fam $in_fam \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.sex.keepID \
 	--geno $genomind_1 --make-bed \
 	--out ${outDir}${outName}.snp_${missStart}
 

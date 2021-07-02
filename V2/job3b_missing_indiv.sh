@@ -41,12 +41,11 @@ max_th=$(echo $(expr 100 - $missStart) " / 100" | bc -l)
 awk -v out=${outDir}${baseName}.miss.removeID -v m=$mean_th -v x=$max_th \
 '{if ( $2>m || $3>x ) {print $1 "\t" $1 > out}}' ${outDir}${baseName}.checkID.means
 
-mv ${outDir}${baseName}.keepID ${outDir}${baseName}.sex.keepID
 grep -vxF -f ${outDir}${baseName}.miss.removeID \
-        ${outDir}${baseName}.sex.keepID > ${outDir}${baseName}.keepID
+        ${outDir}${baseName}.sex.keepID > ${outDir}${baseName}.miss.keepID
 
 
 # Get a subset of individuals for LD while we are here.
-shuf -n 10000 ${outDir}${baseName}.keepID > ${outDir}${baseName}.LD_subset.keepID
+shuf -n 10000 ${outDir}${baseName}.miss.keepID > ${outDir}${baseName}.LD_subset.keepID
 
 rm ${outDir}${baseName}*filtered_for_missingness*

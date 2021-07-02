@@ -4,7 +4,7 @@ in_file=${outDir}${outName}.updated_phe
 
 # check results of missingnesss?
 srun -l plink --bfile $in_file \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.miss.keepID \
 	--exclude ${outDir}${outName}.excludeVAR \
 	--missing \
 	--out ${outDir}${outName}.filtered_missing_check
@@ -25,7 +25,7 @@ rm ${outDir}${outName}.filtered_missing_check*
 echo "------------------>Hardy Weinberg Equilibrium<--------------------------"
 
 srun -l plink --bfile $in_file \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.miss.keepID \
 	--exclude ${outDir}${outName}.excludeVAR \
 	--hardy --out ${outDir}final_stats/${outName}
 

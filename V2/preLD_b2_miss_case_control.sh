@@ -7,7 +7,7 @@ else
 	in_file=${outDir}${outName}.updated_phe
 
 	srun -l plink --bfile $in_file \
-		--keep ${outDir}${baseName}.keepID \
+		--keep ${outDir}${baseName}.miss.keepID \
 		--exclude ${outDir}${outName}.excludeVAR \
 		--test-missing \
 		--out ${outDir}${outName}_cc

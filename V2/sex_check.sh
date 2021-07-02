@@ -8,7 +8,7 @@ file_name=${outDir}${outName}.updated_phe
 if [ $no_split -eq 0 ]
 then
 	srun -l plink2 --bfile $file_name \
-		--keep ${outDir}${baseName}.keepID \
+		--keep ${outDir}${baseName}.pheno.keepID \
 		--split-par $build \
 		--make-bed --out ${outDir}${outName}.sex_split${out_suff}
 	file_name=${outDir}${outName}.sex_split${out_suff}
@@ -45,8 +45,10 @@ awk '{print $1 "\t" $2}' > ${outDir}${outName}.sex_check${out_suff}.removeID
 
 echo "--------------------Discord file created-------------------------"
 
-mv ${outDir}${baseName}.keepID ${outDir}${baseName}.CC.keepID
 grep -vxF -f ${outDir}${outName}.sex_check${out_suff}.removeID \
-	${outDir}${baseName}.CC.keepID > ${outDir}${baseName}.keepID
+	${outDir}${baseName}.pheno.keepID | \
+	grep -vxF -f ${outDir}${outName}.updated_phe.nosex > \
+	${outDir}${baseName}.sex.keepID
+
 
 fi

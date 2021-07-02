@@ -16,7 +16,7 @@ srun -l plink2 --bfile ${outDir}${outName}.updated_phe \
 	--allow-no-sex --out ${outDir}${outName}
 
 srun -l plink2 --bfile ${outDir}${outName}.updated_phe \
-	--keep ${outDir}${baseName}.keepID \
+	--keep ${outDir}${baseName}.miss.keepID \
 	--extract ${outDir}${outName}.prune.in \
 	--make-bed \
 	--out ${outDir}${outName}.LD_pruned

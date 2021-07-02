@@ -43,16 +43,16 @@ then
 	echo $n_cases
 	echo $n_controls
 	shuf ${outDir}${baseName}.controls.phe -n $n_controls | sort | \
-	awk -v out=${outDir}${baseName}.keepID '{print $1 "\t" $1 > out}'
+	awk -v out=${outDir}${baseName}.pheno.keepID '{print $1 "\t" $1 > out}'
 	rm ${outDir}${baseName}.controls.phe
 else
-	awk -v out=${outDir}${baseName}.keepID '{print $1 "\t" $1 > out}'
+	awk -v out=${outDir}${baseName}.pheno.keepID '{print $0 "\t" $1 > out}'
 	rm ${outDir}${baseName}.controls.phe
 fi
 	echo "Adding cases"
-	cat $case_list >> ${outDir}${baseName}.keepID
+	cat $case_list >> ${outDir}${baseName}.pheno.keepID
 else
-	awk -v out=${outDir}${baseName}.keepID \
+	awk -v out=${outDir}${baseName}.pheno.keepID \
 	'{print $1 "\t" $1 > out}' ${outDir}${baseName}.$file_suff.fam
 # -------------------------------------------
 
