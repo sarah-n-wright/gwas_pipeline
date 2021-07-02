@@ -41,8 +41,12 @@ echo "--------------------Figure plotted-------------------------"
 
 
 grep "PROBLEM" ${outDir}${outName}.sex_check${out_suff}.sexcheck | \
-awk '{print $1, $2}' > ${outDir}${outName}.sex_check${out_suff}.removeID
+awk '{print $1 "\t" $2}' > ${outDir}${outName}.sex_check${out_suff}.removeID
 
 echo "--------------------Discord file created-------------------------"
+
+mv ${outDir}${baseName}.keepID ${outDir}${baseName}.CC.keepID
+grep -vxF -f ${outDir}${outName}.sex_check${out_suff}.removeID \
+	${outDir}${baseName}.CC.keepID > ${outDir}${baseName}.keepID
 
 fi
