@@ -26,3 +26,5 @@ srun -l plink2 --bfile ${outDir}${baseName}combined.LD_pruned \
 
 cp ${outDir}${baseName}combined.king.cutoff.out.id \
 	${outDir}${baseName}.king.removeID
+cp ${outDir}${baseName}combined.king.cutoff.in.id \
+	${outDir}${baseName}.king.keepID
