@@ -3,12 +3,12 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/king_%A.out
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/king_%A.err
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=64G
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=128G
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 source ${script_path}Configs/$config ""
-cat ${outDir}${baseName}combined.kin0* > ${outDir}${baseName}combined.kin0
+cat ${outDir}${baseName}combined.kin0.* > ${outDir}${baseName}combined.kin0
 
 awk '(NR>1){print $1 "\t" $2 "\n" $3 "\t" $4}' \
 	${outDir}${baseName}combined.kin0 | \

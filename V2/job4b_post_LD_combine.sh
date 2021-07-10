@@ -4,7 +4,7 @@
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/combprune_%A.err
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=32G
+#SBATCH --mem-per-cpu=64G
 #SBATCH --time=2:00:00
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
@@ -24,7 +24,7 @@ done
 srun -l plink --merge-list $merge_file --allow-no-sex \
 	--make-bed --out ${outDir}${baseName}combined.LD_pruned
 
-rm ${outDir}${baseName}chr*LD_pruned*
+#rm ${outDir}${baseName}chr*LD_pruned*
 
 
 

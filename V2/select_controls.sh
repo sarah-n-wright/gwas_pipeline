@@ -13,6 +13,9 @@ echo ${outDir}${outName}.$file_suff.fam
 # Get number of cases
 n_cases=$(awk '{if ($6==2) {s++}}END{print s}' ${outDir}${outName}.$file_suff.fam)
 
+# Initialize file
+> ${outDir}${baseName}.pheno.keepID
+
 if [ "$n_cases" > 0 ]
 then
 # -----------------------------
@@ -34,11 +37,14 @@ then
 	grep -Ev $exclude_patt $hesin_file | \
 	awk '(NR>1){ a[$1]++ } END { for (b in a) { print b } }' | \
 	sort | join -1 1 -2 1 ${outDir}${baseName}.controls.phe - > ${outDir}${baseName}.controls_temp.phe
+	echo "Controls remaining:"
+	wc -l ${outDir}${baseName}.controls_temp.phe
 	mv ${outDir}${baseName}.controls_temp.phe ${outDir}${baseName}.controls.phe
 fi
 # subset to number of controls desired
-if [ $control_percent > 0 ]
+if [ $control_percent != 0 ]
 then
+	echo "No!"
 	n_controls=$(expr $n_cases \* $control_percent / 100)
 	echo $n_cases
 	echo $n_controls
@@ -46,7 +52,8 @@ then
 	awk -v out=${outDir}${baseName}.pheno.keepID '{print $1 "\t" $1 > out}'
 	rm ${outDir}${baseName}.controls.phe
 else
-	awk -v out=${outDir}${baseName}.pheno.keepID '{print $0 "\t" $1 > out}'
+	awk -v out=${outDir}${baseName}.pheno.keepID '{print $0 "\t" $1 > out}' \
+	${outDir}${baseName}.controls.phe
 	rm ${outDir}${baseName}.controls.phe
 fi
 	echo "Adding cases"

@@ -3,9 +3,9 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/king_%A_%a.out
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/king_%A_%a.err
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=8G
-#SBATCH --array=1-20
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=256G
+#SBATCH --array=1-200%10
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 
@@ -22,7 +22,7 @@ srun -l plink2 --bfile $ld_file \
         --thin-count 50000 \
 	--king-table-filter 0.088338 \
         --make-king-table \
-        --parallel $job_id 20 \
+        --parallel $job_id 200 \
 	--out ${outDir}${baseName}combined
 
 
