@@ -2,9 +2,10 @@
 #SBATCH --job-name=saige
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/saige_%A.out
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=40
+#SBATCH --cpus-per-task=60
 #SBATCH --mem=100G
-#SBATCH --time=12:00:00
+#SBATCH --time=2-00:00:00
+sed -i '1i'"${SLURM_JOB_ID} : run_saige.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 #check the help info for step 1
 #Rscript step1_fitNULLGLMM.R --help
@@ -27,7 +28,7 @@ srun -l Rscript $saige_path/step1_fitNULLGLMM.R \
 	--sampleIDColinphenoFile=IID \
 	--traitType=binary \
 	--outputPrefix=${outDir}${baseName}saige \
-	--nThreads=40 \
+	--nThreads=60 \
 	--LOCO=TRUE \
 	--minMAFforGRM=0.01 \
 	--IsOverwriteVarianceRatioFile=TRUE

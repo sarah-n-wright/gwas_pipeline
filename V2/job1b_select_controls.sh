@@ -6,6 +6,8 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=1G
 #SBATCH --time=0:30:00
+sed -i '1i'"${SLURM_JOB_ID} : job1b_select_controls.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 CONFIG=$1
 FILE_SUFF=$2

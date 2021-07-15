@@ -5,6 +5,7 @@
 #SBATCH --account=nrnb-gpu
 #SBATCH --cpus-per-task=40
 #SBATCH --mem=100G
+sed -i '1i'"${SLURM_JOB_ID} : run_bolt.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 # =$0 Make sure module bolt-lmm is loaded!! Run from /nrnb/ukb-majithia
 config=$1

@@ -5,6 +5,8 @@
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=128G
+sed -i '1i'"${SLURM_JOB_ID} : job5b_king_cutoff.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 source ${script_path}Configs/$config ""

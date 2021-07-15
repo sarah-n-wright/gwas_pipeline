@@ -6,6 +6,8 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=100G
 #SBATCH --time=8:00:00
+sed -i '1i'"${SLURM_JOB_ID} : job7a_prep_assoc.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 config=$1
 assocMethod=$2 # BOLT
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/

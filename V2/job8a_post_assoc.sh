@@ -5,6 +5,8 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
 #SBATCH --time=1:00:00
+sed -i '1i'"${SLURM_JOB_ID} : job8a_post_assoc.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 
 config=$1
 method=$2 # BOLT or SAIGE

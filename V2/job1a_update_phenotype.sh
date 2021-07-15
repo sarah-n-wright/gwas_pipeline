@@ -7,6 +7,8 @@
 #SBATCH --mem-per-cpu=32G
 #SBATCH --time=1:00:00
 #SBATCH --array=0-25
+sed -i '1i'"${SLURM_JOB_ID} : job1a_update_phenotype.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y' 'XY' 'MT')

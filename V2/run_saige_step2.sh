@@ -6,6 +6,8 @@
 #SBATCH --mem=16G
 #SBATCH --time=6:00:00
 #SBATCH --array=0-21
+sed -i '1i'"${SLURM_JOB_ID} : run_saige_step2.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 #check the help info for step 1
 #Rscript step1_fitNULLGLMM.R --help
 # activate RSAIGE2 environment=$0!!!

@@ -5,6 +5,8 @@
 #SBATCH --partition=nrnb-compute
 #SBATCH --mem-per-cpu=16G
 #SBATCH --time=2:00:00
+sed -i '1i'"${SLURM_JOB_ID} : job2_sex_check.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 out_suff=$2

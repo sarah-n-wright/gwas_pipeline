@@ -6,6 +6,8 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=64G
 #SBATCH --time=2:00:00
+sed -i '1i'"${SLURM_JOB_ID} : job4b_post_LD_combine.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 

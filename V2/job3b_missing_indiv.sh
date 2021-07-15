@@ -6,6 +6,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=16G
 #SBATCH --time=4:00:00
+sed -i '1i'"${SLURM_JOB_ID} : job3b_missing_indiv.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y')
