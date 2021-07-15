@@ -9,7 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 file_pref = str(sys.argv[1])
-out_pref = "/cellar/users/snwright/Data/Transfer/" + str(sys.argv[2])
+out_pref = "/cellar/users/snwright/Data/Transfer/missingness_plots/" + str(sys.argv[2])
 indmiss = pd.read_csv(file_pref+".imiss", sep="\s+")
 snpmiss = pd.read_csv(file_pref+".lmiss", sep="\s+")
 
