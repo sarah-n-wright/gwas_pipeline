@@ -1,16 +1,18 @@
 #!/bin/bash -l
-#SBATCH --job-name=bolt_test
-#SBATCH --output /cellar/users/snwright/Data/SlurmOut/nrnb_test_%A.out
+#SBATCH --job-name=bolt
+#SBATCH --output /cellar/users/snwright/Data/SlurmOut/bolt_%A.out
 #SBATCH --partition=nrnb-gpu
 #SBATCH --account=nrnb-gpu
 #SBATCH --cpus-per-task=40
-#SBATCH --mem=32G
+#SBATCH --mem=100G
 
-# $0= Make sure module bolt-lmm is loaded!!
+# =$0 Make sure module bolt-lmm is loaded!! Run from /nrnb/ukb-majithia
 config=$1
 script_path=sarah/Git/gwas_pipeline/V2/
 source ${script_path}Configs/$config ""
-out_suff=$2
+use_imputed_data=$2 # 1= yes, 0 =no
+out_suff=$3 # default ""
+
 if [ "$build" == "b37" ]
 then
     g_map=BOLT-LMM_v2.3.5/tables/genetic_map_hg19_withX.txt.gz
@@ -18,26 +20,58 @@ else
     g_map=BOLT-LMM_v2.3.5/tables/genetic_map_hg38_withX.txt.gz
 fi
 
-outDir=epilepsy/outputs/snp/
+outDir=sarah/pan_disease/cad/outputs/
+imputed_file_list=../ukb-genetic/imputation/bgenSampleFileList_bolt.txt
 
-if [ 1 -eq 1 ]
+if [ "$use_imputed_data" -eq 0 ]
 then
 bolt \
-    --bfile ${outDir}${baseName}combined.final \
+    --bed ${outDir}${baseName}chr{1:22}.final.bed \
+    --bim ${outDir}${baseName}chr{1:22}.final.bim \
+    --fam ${outDir}${baseName}chr7.final.fam \
     --remove=${outDir}${baseName}.final.removeID \
     --exclude=${outDir}${baseName}.final.excludeVAR \
     --phenoFile=${outDir}${baseName}.final.phe.fam \
     --phenoCol=PHENO \
-    --covarFile=${outDir}${baseName}test.covar \
+    --covarFile=${outDir}${baseName}combined.all_covariates.tsv \
     --covarCol=SEX \
-    --qCovarCol=YOB \
+    --qCovarCol=Age \
     --qCovarCol=PC{1:5} \
     --geneticMapFile=$g_map \
-    --lmm \
+    --lmmForceNonInf \
     --LDscoresFile=BOLT-LMM_v2.3.5/tables/LDSCORE.1000G_EUR.tab.gz \
     --numThreads=40 \
-    --statsFile=${outDir}final_stats/${baseName}.bolt.stats.$out_suff
+    --statsFile=${outDir}final_stats/${baseName}.bolt.stats
 #    --modelSnps=################# \
+elif [ "$use_imputed_data" -eq 1 ]
+then
+bolt \
+    --bgenSampleFileList=$imputed_file_list \
+    --bed ${outDir}${baseName}chr{1:22}.final.bed \
+    --bim ${outDir}${baseName}chr{1:22}.final.bim \
+    --fam ${outDir}${baseName}chr7.final.fam \
+    --remove=${outDir}${baseName}.final.removeID \
+    --remove=${outDir}${baseName}.notInImputed.removeID \
+    --exclude=${outDir}${baseName}.final.excludeVAR \
+    --phenoFile=${outDir}${baseName}.final.phe.fam \
+    --phenoCol=PHENO \
+    --covarFile=${outDir}${baseName}combined.all_covariates.tsv \
+    --covarCol=SEX \
+    --qCovarCol=Age \
+    --qCovarCol=PC{1:5} \
+    --bgenMinMAF=0.001 \
+    --bgenMinINFO=0.8 \
+    --geneticMapFile=$g_map \
+    --lmmForceNonInf \
+    --LDscoresFile=BOLT-LMM_v2.3.5/tables/LDSCORE.1000G_EUR.tab.gz \
+    --numThreads=40 \
+    --statsFile=${outDir}final_stats/${baseName}.bolt_imp$out_suff.stats.gz \
+    --statsFileBgenSnps=${outDir}final_stats/${baseName}.bolt_imp$out_suff.stats.bgen.gz \
+    --noBgenIDcheck \
+    --verboseStats
+
+else
+	echo "invalid value for use_imputed_data"
 fi
 # basic args:
 # --bfile: prefix of PLINK genotype files (bed/bim/fam)

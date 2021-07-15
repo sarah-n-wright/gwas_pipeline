@@ -35,7 +35,7 @@ srun -l plink --bfile ${outDir}${outName}.temp${out_suff} \
 echo "--------------------Sex check performed-------------------------"
 
 
-srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V1/gender_check.py ${outDir}${outName}.sex_check ${outName}${out_suff}
+srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/gender_check.py ${outDir}${outName}.sex_check ${outName}${out_suff}
 
 echo "--------------------Figure plotted-------------------------"
 

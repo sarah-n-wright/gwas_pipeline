@@ -17,6 +17,6 @@ source ${script_path}Configs/$1 ""
 
 ### Add updated phenotype ###
 
-source ${script_path}update_phenotype.sh $config $CHR $case_list
+source ${script_path}update_phenotype.sh $config $CHR $case_list $ancestry_subset
 
 

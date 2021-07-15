@@ -2,8 +2,8 @@
 #SBATCH --job-name=saige
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/saige_%A.out
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=20
-#SBATCH --mem=32G
+#SBATCH --cpus-per-task=40
+#SBATCH --mem=100G
 #SBATCH --time=12:00:00
 
 #check the help info for step 1
@@ -22,12 +22,12 @@ srun -l Rscript $saige_path/step1_fitNULLGLMM.R \
 	--plinkFile=${outDir}${baseName}combined.final \
 	--phenoFile=${outDir}${baseName}.final.phe.cov \
 	--phenoCol=PHENO \
-	--covarColList=SEX,YOB,PC1,PC2,PC3,PC4,PC5 \
+	--covarColList=SEX,Age,PC1,PC2,PC3,PC4,PC5 \
 	--sexCol=SEX \
 	--sampleIDColinphenoFile=IID \
 	--traitType=binary \
 	--outputPrefix=${outDir}${baseName}saige \
-	--nThreads=20 \
+	--nThreads=40 \
 	--LOCO=TRUE \
 	--minMAFforGRM=0.01 \
 	--IsOverwriteVarianceRatioFile=TRUE
