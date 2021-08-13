@@ -6,12 +6,17 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=64G
 #SBATCH --time=2:00:00
-sed -i '1i'"${SLURM_JOB_ID} : job4b_post_LD_combine.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+#sed -i '1i'"${SLURM_JOB_ID} : job4b_post_LD_combine.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 
 source ${script_path}Configs/$config "all"
+
+echo ${SLURM_JOB_ID}" : job4b_post_LD_combine.sh : "$config" : "$(date) >> \
+	"/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+
+echo ${SLURM_JOB_ID}" : job4b_post_LD_combine.sh : "$(date) >> ${outDir}${outName}.track
 
 merge_file=${outDir}${outName}merge_list.txt
 > $merge_file

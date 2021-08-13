@@ -6,7 +6,7 @@
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=256G
 #SBATCH --array=1-200%10
-sed -i '1i'"${SLURM_JOB_ID} : job5a_make_king.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
+#sed -i '1i'"${SLURM_JOB_ID} : job5a_make_king.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
@@ -16,6 +16,16 @@ job_id=$SLURM_ARRAY_TASK_ID
 source ${script_path}Configs/$1 ""
 
 ld_file=${outDir}${baseName}combined.LD_pruned
+
+if [ $SLURM_ARRAY_TASK_ID -eq 1 ]; then
+
+echo ${SLURM_ARRAY_JOB_ID}" : job5a_make_king.sh : "$config" : "$(date) >> \
+        /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
+
+echo ${SLURM_ARRAY_JOB_ID}" : job5a_make_king.sh : "$(date) >> \
+        ${outDir}${baseName}.track
+fi
+
 
 echo "------------------------------>Pair-wise IBD<-------------------------"
 

@@ -6,7 +6,6 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=16G
 #SBATCH --time=4:00:00
-sed -i '1i'"${SLURM_JOB_ID} : job3b_missing_indiv.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y')
@@ -16,6 +15,13 @@ out=$v1_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_JOB_ID}.out
 
 source ${script_path}Configs/$config ""
 
+echo ${SLURM_JOB_ID}" : job3b_missing_idv.sh : "$config" : "$(date) >> \
+        /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
+
+echo ${SLURM_JOB_ID}" : job3b_missing_idv.sh : "$(date) >> \
+        ${outDir}${baseName}.track
+
+> ${outDir}${baseName}.missing.checkID
 cat ${outDir}temp/${baseName}*mindrem.id | grep -v "IID" | sort | \
 	uniq > ${outDir}${baseName}.missing.checkID
 
@@ -39,6 +45,7 @@ max_th=$(echo $(expr 100 - $missStart) " / 100" | bc -l)
 
 # only remove those with mean greater than top threshold or max greater than
 # bottom threshold
+> ${outDir}${baseName}.miss.removeID
 awk -v out=${outDir}${baseName}.miss.removeID -v m=$mean_th -v x=$max_th \
 '{if ( $2>m || $3>x ) {print $1 "\t" $1 > out}}' ${outDir}${baseName}.checkID.means
 

@@ -15,6 +15,15 @@ CONTROL_PER=$3
 ICD10_FILE=$4 # /nrnb/ukb-majithia/epilepsy/inputs/any_icd10_sorted.txt
 EXCLUDE_PATT=$5
 
+source ${script_path}Configs/$CONFIG ""
+
+echo ${SLURM_JOB_ID}" : job1b_select_controls.sh : "$config" : "$(date) >> \
+        /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
+
+echo ${SLURM_JOB_ID}" : job1b_select_controls.sh : "$(date) >> \
+	${outDir}${baseName}.track
+
+
 # create the controls.keepID file
 source ${script_path}select_controls.sh $CONFIG 1 $FILE_SUFF $CONTROL_PER $ICD10_FILE $EXCLUDE_PATT
 
