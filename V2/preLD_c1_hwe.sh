@@ -32,4 +32,4 @@ srun -l plink --bfile $in_file \
 echo "----------------->Finished HWE Equilibrium<-----------------------------"
 
 rm ${outDir}final_stats/${outName}*.log
-rm ${outDir}final_stats/${outName}*.nosex
+#rm ${outDir}final_stats/${outName}*.nosex

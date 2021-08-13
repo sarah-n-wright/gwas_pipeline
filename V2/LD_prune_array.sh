@@ -1,5 +1,6 @@
 source ${script_path}Configs/$1 $2
 
+echo $outDir
 echo "----------------->Prune for linkage disequilibrium<---------------------"
 
 # Remove highLD from extractVAR
