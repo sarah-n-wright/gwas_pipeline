@@ -44,7 +44,6 @@ fi
 # subset to number of controls desired
 if [ $control_percent != 0 ]
 then
-	echo "No!"
 	n_controls=$(expr $n_cases \* $control_percent / 100)
 	echo $n_cases
 	echo $n_controls

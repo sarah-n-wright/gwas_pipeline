@@ -14,6 +14,13 @@ input=$3 # file type for saige'bgen' or 'vcf'
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 source ${script_path}Configs/$config ""
 
+echo ${SLURM_JOB_ID}" : job8a_post_assoc.sh : "$config" : "$(date) >> \
+        /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
+
+echo ${SLURM_JOB_ID}" : job8a_post_assoc.sh : "$(date) >> \
+        ${outDir}${baseName}.track
+
+
 if [ "$method" == "SAIGE" ]
 then
  if [ "$input" == 'bgen' ]

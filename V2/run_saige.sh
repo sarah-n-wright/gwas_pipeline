@@ -16,6 +16,12 @@ script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 saige_path=/nrnb/ukb-majithia/sarah/Git/SAIGE/extdata
 source ${script_path}Configs/$config ""
 
+echo ${SLURM_JOB_ID}" : run_saige.sh : "$config" : "$(date) >> \
+        /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
+
+echo ${SLURM_JOB_ID}" : run_saige.sh : "$(date) >> \
+        ${outDir}${baseName}.track
+
 echo $outDir
 echo $baseName
 

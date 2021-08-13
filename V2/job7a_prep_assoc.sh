@@ -14,6 +14,12 @@ script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y')
 source ${script_path}Configs/$config 1
 
+echo ${SLURM_JOB_ID}" : job7a_prep_assoc.sh : "$config" : "$(date) >> \
+        /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
+
+echo ${SLURM_JOB_ID}" : job7a_prep_assoc.sh : "$(date) >> \
+        ${outDir}${baseName}.track
+
 ## covariates ---------------------------------------------------------------------
 covariates=/nrnb/ukb-majithia/epilepsy/phenotypes/cov_sorted.tsv
 pcs=${outDir}${baseName}.eigenvec
@@ -68,6 +74,13 @@ do
 	echo ${outDir}${baseName}chr${chr}.final >> $merge
 done
 
+## Reference genome ---------------------------------------------------------------
+if [ "$build" == 'b37' ]; then
+fasta=/nrnb/ukb-majithia/data/reference/GRCh37/hs37d5.fa
+elif [ "$build" == 'b38' ]; then
+fasta=/nrnb/ukb-majithia/data/reference/GRCh38_full_analysis_set_plus_decoy_hla.fa
+fi
+
 ## BOLT Specific files -------------------------------------------------------------
 if [ "$assocMethod" == "BOLT" ]
 then
@@ -91,7 +104,7 @@ then
 	then
 		# create VCF file from plink set
 		srun -l plink2 --bfile ${outDir}${baseName}chr${chr}.final \
-			--fa /nrnb/ukb-majithia/data/reference/GRCh37/hs37d5.fa \
+			--fa $fasta \
 			--ref-from-fa \
 			--recode vcf id-paste=iid \
 			--out ${outDir}${baseName}chr${chr}.final
@@ -104,7 +117,7 @@ then
 	then
 		# create BGEN file from plink set
 		srun -l plink2 --bfile ${outDir}${baseName}chr${chr}.final \
-			--fa /nrnb/ukb-majithia/data/reference/GRCh37/hs37d5.fa \
+			--fa $fasta \
 			--ref-from-fa \
 			--export bgen-1.2 id-paste=iid bits=8 \
 			--out ${outDir}${baseName}chr${chr}.final
