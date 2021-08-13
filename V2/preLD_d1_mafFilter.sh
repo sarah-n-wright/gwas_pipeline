@@ -1,6 +1,11 @@
 source ${script_path}Configs/$1 $2
 #report_start=($(wc -l $3))
+override_maxMAF=$3
 
+if [ $override_maxMAF -eq 1 ]; then
+	maxMAF=0.5
+fi
+echo "MAXMAF="$maxMAF
 file_pref=${outDir}${outName}.updated_phe
 
 srun -l plink2 --bfile $file_pref \
@@ -36,6 +41,6 @@ echo "Step\tMAF"
 echo "------------------------------>completed MAF filter<-----------------------" 
 
 rm ${outDir}final_stats/${outName}*.log
-rm ${outDir}final_stats/${outName}*.nosex
+#rm ${outDir}final_stats/${outName}*.nosex
 rm ${outDir}${outName}*.log
-rm ${outDir}${outName}*.nosex
+#rm ${outDir}${outName}*.nosex
