@@ -5,8 +5,6 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=4G
 #SBATCH --time=1:00:00
-sed -i '1i'"${SLURM_JOB_ID} : job8a_post_assoc.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
-
 
 config=$1
 method=$2 # BOLT or SAIGE
@@ -29,12 +27,14 @@ then
  	${outDir}final_stats/${baseName}combined.BGEN.stats && \
 	tail -n +2 -q ${outDir}final_stats/${baseName}chr*.BGEN.stats >> \
 	${outDir}final_stats/${baseName}combined.BGEN.stats
+	gzip ${outDir}final_stats/${baseName}combined.BGEN.stats
  elif [ "$input" == 'vcf' ]
  then
  head -1 ${outDir}final_stats${baseName}chr1.VCF.stats > \
 	${outDir}final_stats${baseName}combined.VCF.stats && \
 	tail -n +2 -q ${outDir}final_stats${baseName}chr*.VCF.stats >> \
 	${outDir}final_stats${baseName}combined.VCF.stats
+	gzip ${outDir}final_stats/${baseName}combined.BGEN.stats
  else
  echo "Invalid file input for SAIGE:"$input
  fi

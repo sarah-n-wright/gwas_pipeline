@@ -24,6 +24,8 @@ fi
 outDir=sarah/pan_disease/cad/outputs/
 imputed_file_list=../ukb-genetic/imputation/bgenSampleFileList_bolt.txt
 
+cat ${outDir}${baseName}chr*.excludeVAR > ${outDir}${baseName}.final.excludeVAR
+
 if [ "$use_imputed_data" -eq 0 ]
 then
 bolt \
@@ -52,7 +54,6 @@ bolt \
     --bim ${outDir}${baseName}chr{1:22}.final.bim \
     --fam ${outDir}${baseName}chr7.final.fam \
     --remove=${outDir}${baseName}.final.removeID \
-    --remove=${outDir}${baseName}.notInImputed.removeID \
     --exclude=${outDir}${baseName}.final.excludeVAR \
     --phenoFile=${outDir}${baseName}.final.phe.fam \
     --phenoCol=PHENO \
@@ -69,7 +70,8 @@ bolt \
     --statsFile=${outDir}final_stats/${baseName}.bolt_imp$out_suff.stats.gz \
     --statsFileBgenSnps=${outDir}final_stats/${baseName}.bolt_imp$out_suff.stats.bgen.gz \
     --noBgenIDcheck \
-    --verboseStats
+    --verboseStats \
+    --remove=${outDir}${baseName}.notInImputed.removeID
 
 else
 	echo "invalid value for use_imputed_data"

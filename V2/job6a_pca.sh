@@ -3,7 +3,7 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/pca_%A.out
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/pca_%A.err
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=4
 #SBATCH --mem=128G
 
 config=$1

@@ -16,7 +16,7 @@ source ${script_path}Configs/$config "all"
 echo ${SLURM_JOB_ID}" : job4b_post_LD_combine.sh : "$config" : "$(date) >> \
 	"/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
-echo ${SLURM_JOB_ID}" : job4b_post_LD_combine.sh : "$(date) >> ${outDir}${outName}.track
+echo ${SLURM_JOB_ID}" : job4b_post_LD_combine.sh : "$(date) >> ${outDir}${baseName}.track
 
 merge_file=${outDir}${outName}merge_list.txt
 > $merge_file

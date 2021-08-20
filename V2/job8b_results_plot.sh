@@ -5,28 +5,41 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem-per-cpu=32G
 #SBATCH --time=2:00:00
-sed -i '1i'"${SLURM_JOB_ID} : job8b_results_plot.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 method=$2 # BOLT or SAIGE
+stats_file_suff=$3 # for final_stats/${baseName}${stats_file_suff}.gz
 
 source ${script_path}Configs/$config ""
 
+echo ${SLURM_JOB_ID}" : job8b_results_plot.sh : "$config" : "$(date) >> \
+        /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
+
+echo ${SLURM_JOB_ID}" : job8b_results_plot.sh : "$(date) >> \
+        ${outDir}${baseName}.track
+
+stats_file=${outDir}final_stats/${baseName}${stats_file_suff}
+gunzip $stats_file
+
 if [ "$method" == "BOLT" ]
 then
-stats_file=${outDir}final_stats/${baseName}.bolt.stats
-srun -l python ${script_path}plotQQ.py $stats_file ${baseName}_bolt CHR SNP BP P_BOLT_LMM
+#stats_file=${outDir}final_stats/${baseName}.bolt.stats
+srun -l python ${script_path}plotQQ.py $stats_file ${baseName}$stats_file_suff CHR SNP BP P_BOLT_LMM_INF
+srun -l python ${script_path}plot_stratifiedQQ.py $stats_file ${baseName}$stats_file_suff.strat CHR SNP BP P_BOLT_LMM_INF A1FREQ
 echo "Created QQ plot"
-srun -l python ${script_path}plotman.py $stats_file ${baseName}_bolt CHR SNP BP P_BOLT_LMM
+srun -l python ${script_path}plotman.py $stats_file ${baseName}$stats_file_suff CHR SNP BP P_BOLT_LMM_INF
 echo "Created Manhattan plot"
 elif [ "$method" == "SAIGE" ]
 then
-stats_file=${outDir}final_stats/${baseName}combined.BGEN.stats
-srun -l python ${script_path}plotQQ.py $stats_file ${baseName}_saige CHR rsid POS p.value
+#stats_file=${outDir}final_stats/${baseName}combined.BGEN.stats
+srun -l python ${script_path}plotQQ.py $stats_file ${baseName}.saige$stats_file_suff CHR rsid POS p.value
+srun -l python ${script_path}plot_stratifiedQQ.py $stats_file ${baseName}.saige$stats_file_suff.strat CHR SNP BP P_BOLT_LMM_INF AF_Allele2
 echo "Created QQ plot"
-srun -l python ${script_path}plotman.py $stats_file ${baseName}_saige CHR rsid POS p.value
+srun -l python ${script_path}plotman.py $stats_file ${baseName}.saige$stats_file_suff CHR rsid POS p.value
 echo "Created Manhattan plot"
 fi
+
+gzip $stats_file
 
 echo "-----------------------DONE------------------"

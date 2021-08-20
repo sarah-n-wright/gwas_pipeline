@@ -5,7 +5,7 @@
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=16G
-#SBATCH --time=1:00:00
+#SBATCH --time=3:00:00
 #SBATCH --array=0-23
 #sed -i '1i'"${SLURM_JOB_ID} : job3c_preLD.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
