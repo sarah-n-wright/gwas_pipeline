@@ -5,13 +5,13 @@
 #SBATCH --cpus-per-task=60
 #SBATCH --mem=100G
 #SBATCH --time=2-00:00:00
-sed -i '1i'"${SLURM_JOB_ID} : run_saige.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 #check the help info for step 1
 #Rscript step1_fitNULLGLMM.R --help
 # activate RSAIGE2 environment=$0!!!
 
 config=$1
+use_pruned=$2
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 saige_path=/nrnb/ukb-majithia/sarah/Git/SAIGE/extdata
 source ${script_path}Configs/$config ""
@@ -25,8 +25,14 @@ echo ${SLURM_JOB_ID}" : run_saige.sh : "$(date) >> \
 echo $outDir
 echo $baseName
 
+if [ $use_pruned -eq 1 ]; then
+        in_file=${outDir}${baseName}combined.LD_pruned
+else
+        in_file=${outDir}${baseName}combined.final
+fi
+
 srun -l Rscript $saige_path/step1_fitNULLGLMM.R \
-	--plinkFile=${outDir}${baseName}combined.final \
+	--plinkFile=$infile \
 	--phenoFile=${outDir}${baseName}.final.phe.cov \
 	--phenoCol=PHENO \
 	--covarColList=SEX,Age,PC1,PC2,PC3,PC4,PC5 \
