@@ -3,7 +3,8 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/pca_%A.out
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/pca_%A.err
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=10
+#SBATCH --parsable
 #SBATCH --mem=128G
 
 config=$1
@@ -12,10 +13,10 @@ script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 
 source ${script_path}Configs/$config ""
 
-echo ${SLURM_JOB_ID}" : job6a_pca.sh : "$config" : "$(date) >> \
+echo ${SLURM_JOB_ID}" : job6_pca.sh : "$config" : "$(date) >> \
         /cellar/users/snwright/Data/SlurmOut/track_slurm.txt
 
-echo ${SLURM_JOB_ID}" : job6a_pca.sh : "$(date) >> \
+echo ${SLURM_JOB_ID}" : job6_pca.sh : "$(date) >> \
         ${outDir}${baseName}.track
 
 grep -w -f /nrnb/ukb-majithia/data/phenotypes/ukb_f22006_white_caucasian_eids.txt \

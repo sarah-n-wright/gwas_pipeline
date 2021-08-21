@@ -25,18 +25,18 @@ gunzip $stats_file
 if [ "$method" == "BOLT" ]
 then
 #stats_file=${outDir}final_stats/${baseName}.bolt.stats
-srun -l python ${script_path}plotQQ.py $stats_file ${baseName}$stats_file_suff CHR SNP BP P_BOLT_LMM_INF
-srun -l python ${script_path}plot_stratifiedQQ.py $stats_file ${baseName}$stats_file_suff.strat CHR SNP BP P_BOLT_LMM_INF A1FREQ
+srun -l python ${script_path}plot_qq.py $stats_file ${baseName}$stats_file_suff CHR SNP BP P_BOLT_LMM_INF
+#srun -l python ${script_path}plot_stratifiedQQ.py $stats_file ${baseName}$stats_file_suff.strat CHR SNP BP P_BOLT_LMM_INF A1FREQ
 echo "Created QQ plot"
-srun -l python ${script_path}plotman.py $stats_file ${baseName}$stats_file_suff CHR SNP BP P_BOLT_LMM_INF
+srun -l python ${script_path}plot_manhattan.py $stats_file ${baseName}$stats_file_suff CHR SNP BP P_BOLT_LMM_INF
 echo "Created Manhattan plot"
 elif [ "$method" == "SAIGE" ]
 then
 #stats_file=${outDir}final_stats/${baseName}combined.BGEN.stats
-srun -l python ${script_path}plotQQ.py $stats_file ${baseName}.saige$stats_file_suff CHR rsid POS p.value
-srun -l python ${script_path}plot_stratifiedQQ.py $stats_file ${baseName}.saige$stats_file_suff.strat CHR SNP BP P_BOLT_LMM_INF AF_Allele2
+srun -l python ${script_path}plot_qq.py $stats_file ${baseName}.saige$stats_file_suff CHR rsid POS p.value
+#srun -l python ${script_path}plot_stratifiedQQ.py $stats_file ${baseName}.saige$stats_file_suff.strat CHR SNP BP P_BOLT_LMM_INF AF_Allele2
 echo "Created QQ plot"
-srun -l python ${script_path}plotman.py $stats_file ${baseName}.saige$stats_file_suff CHR rsid POS p.value
+srun -l python ${script_path}plot_manhattan.py $stats_file ${baseName}.saige$stats_file_suff CHR rsid POS p.value
 echo "Created Manhattan plot"
 fi
 

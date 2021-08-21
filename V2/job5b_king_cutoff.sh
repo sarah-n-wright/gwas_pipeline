@@ -4,6 +4,7 @@
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/king_%A.err
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=2
+#SBATCH --parsable
 #SBATCH --mem=128G
 
 

@@ -3,16 +3,14 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/idv_%A.out
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/idv_%A.err
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=16G
+#SBATCH --cpus-per-task=5
+#SBATCH --mem=16G
 #SBATCH --time=4:00:00
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y')
 #chromosomes=(21)
 config=$1
-out=$v1_${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_JOB_ID}.out
-
 source ${script_path}Configs/$config ""
 
 echo ${SLURM_JOB_ID}" : job3b_missing_idv.sh : "$config" : "$(date) >> \
@@ -25,14 +23,17 @@ echo ${SLURM_JOB_ID}" : job3b_missing_idv.sh : "$(date) >> \
 cat ${outDir}temp/${baseName}*mindrem.id | grep -v "IID" | sort | \
 	uniq > ${outDir}${baseName}.missing.checkID
 
-for chr in ${chromosomes[@]}
-do
-srun -l plink2 --bfile ${outDir}${baseName}chr$chr.updated_phe \
-	--keep ${outDir}${baseName}.missing.checkID \
-	--extract ${outDir}${baseName}chr$chr.filtered_for_missingness.bim \
-	--missing sample-only \
-	--out ${outDir}${baseName}chr$chr.checkID
-done
+export outDir
+export baseName
+$parallel ./par_miss_idv.sh ::: ${chromosomes[@]}
+#------
+#plink2 --bfile ${outDir}${baseName}chr$chr.updated_phe \
+#        --keep ${outDir}${baseName}.missing.checkID \
+#        --extract ${outDir}${baseName}chr$chr.filtered_for_missingness.bim \
+#        --missing sample-only \
+#        --out ${outDir}${baseName}chr$chr.checkID
+#------
+
 
 cat ${outDir}${baseName}*.checkID.smiss | grep -v "IID" | \
 	sort -k 1 > ${outDir}${baseName}.checkID.temp

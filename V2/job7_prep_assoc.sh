@@ -5,6 +5,7 @@
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=100G
+#SBATCH --parsable
 #SBATCH --time=8:00:00
 
 config=$1
@@ -106,7 +107,7 @@ if [ $covarOption -gt 0 ]; then
 	export fasta
 	export assocMethod
 
-	$parallel ./prep_assoc_parallel.sh ::: ${chromosomes[@]}
+	$parallel ./par_prep_assoc.sh ::: ${chromosomes[@]}
 
 
 	srun -l plink --merge-list $merge --allow-no-sex \

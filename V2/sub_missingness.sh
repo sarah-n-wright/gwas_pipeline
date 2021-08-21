@@ -12,7 +12,7 @@ srun -l plink --bed $in_bed --bim $in_bim --fam $in_fam \
 	--out ${outDir}${outName}
 
 ## Plot histograms of the missingess.
-srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/hist_miss.py ${outDir}${outName} $outName
+srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/plot_hist_miss.py ${outDir}${outName} $outName
 
 
 aspercent=$(echo $missStart " / 100" | bc -l)

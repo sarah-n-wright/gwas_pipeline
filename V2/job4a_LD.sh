@@ -6,8 +6,8 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=16G
 #SBATCH --time=2:00:00
+#SBATCH --parsable
 #SBATCH --array=0-23
-#sed -i '1i'"${SLURM_JOB_ID} : job4a_LD.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
@@ -25,4 +25,4 @@ echo ${SLURM_ARRAY_JOB_ID}" : job4a_LD.sh : "$(date) >> \
         ${outDir}${baseName}.track
 fi
 
-source ${script_path}LD_prune_array.sh $config $CHR
+source ${script_path}sub_LD_prune_array.sh $config $CHR

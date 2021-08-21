@@ -6,6 +6,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=32G
 #SBATCH --time=1:00:00
+#SBATCH --parsable
 #SBATCH --array=0-25
 #sed -i '1i'"${SLURM_JOB_ID} : job1a_update_phenotype.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
 
@@ -27,6 +28,6 @@ fi
 
 ### Add updated phenotype ###
 
-source ${script_path}update_phenotype.sh $config $CHR $case_list $ancestry_subset
+source ${script_path}sub_update_phenotype.sh $config $CHR $case_list $ancestry_subset
 
 
