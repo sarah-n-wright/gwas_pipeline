@@ -109,6 +109,20 @@ if [ $covarOption -gt 0 ]; then
 
 	$parallel ./par_prep_assoc.sh ::: ${chromosomes[@]}
 
+	if [ "$assocMethod" == "SAIGE" ]; then
+	cat ${outDir}${baseName}chr*.saige_imp.sample > \
+		${outDir}${baseName}.saige_imp_temp.sample
+	sort ${outDir}${baseName}.saige_imp_temp.sample | \
+	datamash -g 1 count 1 | awk -v out=${outDir}${baseName}.saige_imp.sample \
+		'{if ($2 == 22){print $1 > out}}'
+	grep -w -f ${outDir}${baseName}.saige_imp.sample \
+		${outDir}${baseName}.final.phe.cov > \
+		${outDir}${baseName}.imp_temp.phe.cov
+	head -n 1 ${outDir}${baseName}.final.phe.cov | \
+		cat - ${outDir}${baseName}.imp_temp.phe.cov > \
+		${outDir}${baseName}.imp.phe.cov
+	rm ${outDir}${baseName}.imp_temp.phe.cov
+fi
 
 	srun -l plink --merge-list $merge --allow-no-sex \
 		--make-bed --out ${outDir}${baseName}combined.final

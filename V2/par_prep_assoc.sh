@@ -1,5 +1,5 @@
 chr=$1
-
+impute_path=/nrnb/ukb-genetic/imputation
 # Filter datasets ------------------------------------------------
 echo $chr
 # get the temporary filtered dataset
@@ -32,6 +32,10 @@ then
 	grep -Ev "^0 |^ID" ${outDir}${baseName}chr$chr.final.sample | \
 		awk -v out=${outDir}${baseName}chr$chr.saige.sample \
 		'{print $1 > out}'
+	samp_file=${outDir}${baseName}chr${chr}.saige_imp.sample
+	awk '(NR>2){print $1}' $impute_path/ukb_imp_chr${chr}_v3.sample | \
+                grep -w -f ${outDir}${baseName}chr${chr}.saige.sample - > \
+                $samp_file
 else
 	echo "PLINK"
 fi

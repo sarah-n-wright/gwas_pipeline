@@ -12,6 +12,7 @@
 
 config=$1
 use_pruned=$2
+use_imp_check_cov_file=$3
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 saige_path=/nrnb/ukb-majithia/sarah/Git/SAIGE/extdata
 source ${script_path}Configs/$config ""
@@ -31,9 +32,15 @@ else
         in_file=${outDir}${baseName}combined.final
 fi
 
+if [ $use_imp_check_cov_file -eq 1 ]; then
+	cov_file=${outDir}${baseName}.imp.phe.cov
+else
+	cov_file=${outDir}${baseName}.final.phe.cov
+fi
+
 srun -l Rscript $saige_path/step1_fitNULLGLMM.R \
-	--plinkFile=$infile \
-	--phenoFile=${outDir}${baseName}.final.phe.cov \
+	--plinkFile=$in_file \
+	--phenoFile=$cov_file \
 	--phenoCol=PHENO \
 	--covarColList=SEX,Age,PC1,PC2,PC3,PC4,PC5 \
 	--sexCol=SEX \
