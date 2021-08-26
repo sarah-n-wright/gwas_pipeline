@@ -4,11 +4,14 @@
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/idv_%A.err
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=5
-#SBATCH --mem=16G
+#SBATCH --parsable
+#SBATCH --mem=64G
 #SBATCH --time=4:00:00
 
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
-chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y')
+#chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y')
+chromosomes=(1 10 11 12 13 2 14 15 16 17 3 4 18 19 20 5 6 21 22 'X' 7 8 9 'Y')
+
 #chromosomes=(21)
 config=$1
 source ${script_path}Configs/$config ""

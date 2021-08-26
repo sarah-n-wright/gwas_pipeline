@@ -13,7 +13,7 @@ script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 'X' 'Y')
 #chromosomes=(21)
 config=$1
-skip_MAF=$2 # 1 for yes (set max=0.5)
+#skip_MAF=$2 # 1 for yes (set max=0.5)
 CHR=${chromosomes[$SLURM_ARRAY_TASK_ID]}
 
 source ${script_path}Configs/$config ""

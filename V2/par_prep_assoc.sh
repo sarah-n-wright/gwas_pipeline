@@ -18,7 +18,6 @@ elif [ "$assocMethod" == "SAIGE" ]
 then
 	echo $chr
 	echo "SAIGE"
-	# TODO - saige specific .sample file for bgen.
 	# combined phenotype/covar file
 	# create BGEN file from plink set
 	srun -l plink2 --bfile ${outDir}${baseName}chr${chr}.final \

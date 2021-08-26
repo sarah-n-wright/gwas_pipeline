@@ -33,7 +33,7 @@ echo "------------------------------>Performing Sex Check<----------------------
 
 if [ $sexInfo -eq 1 ]; then
 #source ${script_path}sub_sex_check.sh $config $override_thresholds $minF $maxF
-  if [ "$override" -eq 1 ]; then
+  if [ $override -eq 1 ]; then
         echo "OVERRIDING CONFIG THRESHOLDS"
         sexFmin=$minF
         sexFmax=$maxF
@@ -42,13 +42,13 @@ if [ $sexInfo -eq 1 ]; then
 
   else
   # Don't need this if XY region already separated?
-    if [ $no_split -eq 0 ]; then
-        srun -l plink2 --bfile $file_name \
-                --keep ${outDir}${baseName}.pheno.keepID \
-                --split-par $build \
-                --make-bed --out ${outDir}${outName}.sex_split
-        file_name=${outDir}${outName}.sex_split
-    fi
+#    if [ $no_split -eq 0 ]; then
+#        srun -l plink2 --bfile $file_name \
+#                --keep ${outDir}${baseName}.pheno.keepID \
+#                --split-par $build \
+#                --make-bed --out ${outDir}${outName}.sex_split
+#        file_name=${outDir}${outName}.sex_split
+#    fi
 
 # LD prune
     if [ 1 -eq 1 ]; then
@@ -71,9 +71,20 @@ if [ $sexInfo -eq 1 ]; then
   echo "--------------------Sex check performed-------------------------"
 
 
-  srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/plot_gender_check.py ${o$
+  srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/plot_gender_check.py ${outDir}${outName}.sex_check ${outDir}${outName}
 
   echo "--------------------Figure plotted-------------------------"
+
+  grep "PROBLEM" ${outDir}${outName}.sex_check.sexcheck | \
+  awk '{print $1 "\t" $2}' > ${outDir}${outName}.sex_check.removeID
+
+  echo "--------------------Discord file created-------------------------"
+
+  grep -vwF -f ${outDir}${outName}.sex_check.removeID \
+        ${outDir}${baseName}.pheno.keepID | \
+        grep -vwF -f ${outDir}${outName}.updated_phe.nosex > \
+        ${outDir}${baseName}.sex.keepID
+
 else
   echo "Sex check turned off by RunConfig.conf"
 fi

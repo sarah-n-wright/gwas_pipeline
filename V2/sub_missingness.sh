@@ -1,4 +1,5 @@
-source ${script_path}Configs/$1 $2
+chr=$2
+source ${script_path}Configs/$1 $chr
 
 # iteratively filter for missingness
 in_bed=${outDir}${outName}.updated_phe.bed
@@ -12,7 +13,7 @@ srun -l plink --bed $in_bed --bim $in_bim --fam $in_fam \
 	--out ${outDir}${outName}
 
 ## Plot histograms of the missingess.
-srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/plot_hist_miss.py ${outDir}${outName} $outName
+srun -l python /nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/plot_hist_miss.py ${outDir}${outName} ${outDir}${outName} $chr
 
 
 aspercent=$(echo $missStart " / 100" | bc -l)

@@ -9,7 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 file_pref = str(sys.argv[1])
-out_pref = "/cellar/users/snwright/Data/Transfer/gwas_qc_plots/" + str(sys.argv[2])
+out_pref = str(sys.argv[2])
 gender = pd.read_csv(file_pref+".sexcheck", sep="\s+")
 data_col = gender.columns[5]
 plt.figure()
@@ -18,4 +18,4 @@ plt.hist(gender.loc[(gender["PEDSEX"]==2), data_col], bins=100, label="female", 
 plt.xlabel("F-score")
 plt.ylabel("Number of individuals")
 plt.title("Sex Score")
-plt.savefig(out_pref+"sexcheck.png")
+plt.savefig(out_pref+".sexcheck.png")

@@ -3,8 +3,8 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/assoc_prep_%A.out
 #SBATCH --error /cellar/users/snwright/Data/SlurmOut/assoc_prep_%A.err
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=1
-#SBATCH --mem-per-cpu=100G
+#SBATCH --cpus-per-task=22
+#SBATCH --mem=100G
 #SBATCH --parsable
 #SBATCH --time=8:00:00
 
@@ -33,7 +33,7 @@ if [ $covarOption -lt 2 ]; then
 	cut -f1,2,3,4,6- | \
 	awk -v out=${outDir}${baseName}combined.all_covariates.tsv \
 	'{print $0 "\t" 2015 - $4 > out}'
-  sed -ie "1i\FID\tIID\tSEX\tYOB\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10\tAge" \
+  sed -i "1i\FID\tIID\tSEX\tYOB\tPC1\tPC2\tPC3\tPC4\tPC5\tPC6\tPC7\tPC8\tPC9\tPC10\tAge" \
 	${outDir}${baseName}combined.all_covariates.tsv
 fi
 
@@ -53,7 +53,7 @@ if [ $covarOption -gt 0 ]; then
 	--make-pheno $case_list '*' \
 	--make-just-fam --out ${outDir}${baseName}.final.phe
 
-  sed -ie "1i\FID IID F M SEX PHENO" ${outDir}${baseName}.final.phe.fam
+  sed -i "1i\FID IID F M SEX PHENO" ${outDir}${baseName}.final.phe.fam
 
 # Filter datasets ------------------------------------------------
   merge=${outDir}${baseName}merge_list_final.txt
@@ -86,7 +86,6 @@ if [ "$assocMethod" == "BOLT" ]; then
 ## SAIGE Specific files ------------------------------------------------------------
 elif [ "$assocMethod" == "SAIGE" ]; then
 	echo "SAIGE"
-	# TODO - saige specific .sample file for bgen.
 	# combined phenotype/covar file
 	if [ $covarOption -lt 2 ]; then
 	awk '(NR>1){print $1 "\t" $6}' ${outDir}${baseName}.final.phe.fam | \
@@ -108,7 +107,7 @@ if [ $covarOption -gt 0 ]; then
 	export assocMethod
 
 	$parallel ./par_prep_assoc.sh ::: ${chromosomes[@]}
-
+	echo "FINISHED PARALLEL"
 	if [ "$assocMethod" == "SAIGE" ]; then
 	cat ${outDir}${baseName}chr*.saige_imp.sample > \
 		${outDir}${baseName}.saige_imp_temp.sample
