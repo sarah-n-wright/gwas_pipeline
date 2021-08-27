@@ -3,12 +3,13 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/post_assoc_%A.out
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=1
+#SBATCH --parsable
 #SBATCH --mem=4G
 #SBATCH --time=1:00:00
 
 config=$1
 method=$2 # BOLT or SAIGE
-input=$3 # file type for saige'bgen' or 'vcf'
+input=$3 # file type for saige'bgen' or 'vcf' or 'imputed'
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 source ${script_path}Configs/$config ""
 
@@ -28,6 +29,13 @@ then
 	tail -n +2 -q ${outDir}final_stats/${baseName}chr*.BGEN.stats >> \
 	${outDir}final_stats/${baseName}combined.BGEN.stats
 	gzip ${outDir}final_stats/${baseName}combined.BGEN.stats
+ elif [ "$input" == 'imputed' ]
+ then
+ head -1 ${outDir}final_stats/${baseName}chr1.IMP.stats > \
+ 	${outDir}final_stats/${baseName}combined.IMP.stats && \
+	tail -n +2 -q ${outDir}final_stats/${baseName}chr*.IMP.stats >> \
+	${outDir}final_stats/${baseName}combined.IMP.stats
+	gzip -f ${outDir}final_stats/${baseName}combined.IMP.stats
  elif [ "$input" == 'vcf' ]
  then
  head -1 ${outDir}final_stats${baseName}chr1.VCF.stats > \

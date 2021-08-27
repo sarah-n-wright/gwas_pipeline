@@ -3,6 +3,7 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/bolt_%A.out
 #SBATCH --partition=nrnb-gpu
 #SBATCH --account=nrnb-gpu
+#SBATCH --parsable
 #SBATCH --cpus-per-task=40
 #SBATCH --mem=100G
 sed -i '1i'"${SLURM_JOB_ID} : run_bolt.sh : $(date)" "/cellar/users/snwright/Data/SlurmOut/track_slurm.txt"
@@ -20,11 +21,13 @@ then
 else
     g_map=BOLT-LMM_v2.3.5/tables/genetic_map_hg38_withX.txt.gz
 fi
-
-outDir=sarah/pan_disease/cad/outputs/
+outDir=$(echo ${outDir##*ukb-majithia/})
 imputed_file_list=../ukb-genetic/imputation/bgenSampleFileList_bolt.txt
 
 cat ${outDir}${baseName}chr*.excludeVAR > ${outDir}${baseName}.final.excludeVAR
+
+cat ${outDir}${baseName}chr*.notInImputed.removeID | sort -k 1 | uniq > \
+	${outDir}${baseName}.notInImputed.removeID
 
 if [ "$use_imputed_data" -eq 0 ]
 then

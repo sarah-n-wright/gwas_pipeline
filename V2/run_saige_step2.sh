@@ -3,9 +3,9 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/saige2_%A_%a.out
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=2
-#SBATCH -w nrnb-cn-06
-#SBATCH --mem=16G
-#SBATCH --time=6:00:00
+#SBATCH --mem=32G
+#SBATCH --parsable
+#SBATCH --time=2-00:00:00
 #SBATCH --array=0-21
 
 #check the help info for step 1

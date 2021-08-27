@@ -4,6 +4,7 @@
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=60
 #SBATCH --mem=100G
+#SBATCH --parsable
 #SBATCH --time=2-00:00:00
 
 #check the help info for step 1

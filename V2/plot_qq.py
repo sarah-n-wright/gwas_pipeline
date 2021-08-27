@@ -8,7 +8,7 @@ from qqman import qqman
 import pandas as pd
 
 filename = str(sys.argv[1])
-out_pref = "/cellar/users/snwright/Data/Transfer/assoc_results/" + str(sys.argv[2])
+out_pref = str(sys.argv[2])
 chr_col=str(sys.argv[3])
 snp_col=str(sys.argv[4])
 bp_col=str(sys.argv[5])
