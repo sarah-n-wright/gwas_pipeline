@@ -11,6 +11,7 @@ script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 config=$1
 method=$2 # BOLT or SAIGE
 stats_file_suff=$3 # for final_stats/${baseName}${stats_file_suff}.gz
+out_suff=$4
 
 source ${script_path}Configs/$config ""
 
@@ -34,7 +35,7 @@ srun -l python ${script_path}plot_manhattan.py $stats_file ${outDir}${baseName}$
 echo "Created Manhattan plot"
 convert ${outDir}${baseName}${stats_file_suff}_Manhattan.png \
 	${outDir}${baseName}${stats_file_suff}_QQ.png \
-	/cellar/users/snwright/Data/Transfer/v3/${baseName}.bolt.assoc.plots.pdf
+	/cellar/users/snwright/Data/Transfer/v3/${baseName}.bolt$out_suff.assoc.plots.pdf
 
 elif [ "$method" == "SAIGE" ]
 then
@@ -46,7 +47,7 @@ srun -l python ${script_path}plot_manhattan.py $stats_file ${outDir}${baseName}.
 echo "Created Manhattan plot"
 convert ${outDir}${baseName}.saige${stats_file_suff}_Manhattan.png \
 	${outDir}${baseName}.saige${stats_file_suff}_QQ.png \
-	/cellar/users/snwright/Data/Transfer/v3/${baseName}.saige.assoc.plots.pdf
+	/cellar/users/snwright/Data/Transfer/v3/${baseName}.saige$out_suff.assoc.plots.pdf
 fi
 
 gzip $stats_file

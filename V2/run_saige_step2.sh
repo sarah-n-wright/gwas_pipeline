@@ -2,10 +2,10 @@
 #SBATCH --job-name=saige2
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/saige2_%A_%a.out
 #SBATCH --partition=nrnb-compute
-#SBATCH --cpus-per-task=2
-#SBATCH --mem=32G
+#SBATCH --cpus-per-task=3
+#SBATCH --mem=64G
 #SBATCH --parsable
-#SBATCH --time=2-00:00:00
+#SBATCH --time=3-00:00:00
 #SBATCH --array=0-21
 
 #check the help info for step 1
@@ -14,6 +14,7 @@
 
 config=$1
 use_imputed_data=$2 #1=yes, 0=no
+out_suff=$4
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 saige_path=/nrnb/ukb-majithia/sarah/Git/SAIGE/extdata
 chromosomes=(1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22)
@@ -41,10 +42,10 @@ srun -l Rscript $saige_path/step2_SPAtests.R \
 	--bgenFile=$impute_path/ukb_imp_chr${CHR}_v3.bgen \
 	--bgenFileIndex=$impute_path/ukb_imp_chr${CHR}_v3.bgen.bgi \
 	--sampleFile=${outDir}${outName}.saige_imp.sample \
-	--GMMATmodelFile=${outDir}${baseName}saige.rda \
-	--varianceRatioFile=${outDir}${baseName}saige.varianceRatio.txt \
+	--GMMATmodelFile=${outDir}${baseName}saige$out_suff.rda \
+	--varianceRatioFile=${outDir}${baseName}saige$out_suff.varianceRatio.txt \
 	--minInfo=0.8 \
-	--SAIGEOutputFile=${outDir}final_stats/${outName}.IMP.stats \
+	--SAIGEOutputFile=${outDir}final_stats/${outName}.IMP$out_suff.stats \
 	--IsOutputAFinCaseCtrl=TRUE \
 	--IsOutputNinCaseCtrl=TRUE \
 	--IsOutputHetHomCountsinCaseCtrl=TRUE \
@@ -59,10 +60,10 @@ elif [ "$use_imputed_data" -eq 0 ]; then
 	--bgenFile=${outDir}${outName}.final.bgen \
 	--bgenFileIndex=${outDir}${outName}.final.bgen.bgi \
 	--sampleFile=${outDir}${outName}.saige.sample \
-	--GMMATmodelFile=${outDir}${baseName}saige.rda \
-	--varianceRatioFile=${outDir}${baseName}saige.varianceRatio.txt \
+	--GMMATmodelFile=${outDir}${baseName}saige$out_suff.rda \
+	--varianceRatioFile=${outDir}${baseName}saige$out_suff.varianceRatio.txt \
 	--minInfo=0.8 \
-	--SAIGEOutputFile=${outDir}final_stats/${outName}.BGEN.stats \
+	--SAIGEOutputFile=${outDir}final_stats/${outName}.BGEN$out_suff.stats \
 	--IsOutputAFinCaseCtrl=TRUE \
 	--IsOutputNinCaseCtrl=TRUE \
 	--IsOutputHetHomCountsinCaseCtrl=TRUE \

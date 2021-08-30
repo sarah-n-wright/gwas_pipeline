@@ -14,6 +14,7 @@
 config=$1
 use_pruned=$2
 use_imp_check_cov_file=$3
+out_suff=$4
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 saige_path=/nrnb/ukb-majithia/sarah/Git/SAIGE/extdata
 source ${script_path}Configs/$config ""
@@ -43,11 +44,11 @@ srun -l Rscript $saige_path/step1_fitNULLGLMM.R \
 	--plinkFile=$in_file \
 	--phenoFile=$cov_file \
 	--phenoCol=PHENO \
-	--covarColList=SEX,Age,PC1,PC2,PC3,PC4,PC5 \
+	--covarColList=SEX,Age \
 	--sexCol=SEX \
 	--sampleIDColinphenoFile=IID \
 	--traitType=binary \
-	--outputPrefix=${outDir}${baseName}saige \
+	--outputPrefix=${outDir}${baseName}saige$out_suff \
 	--nThreads=60 \
 	--LOCO=TRUE \
 	--minMAFforGRM=0.01 \

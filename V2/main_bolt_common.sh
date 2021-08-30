@@ -1,5 +1,6 @@
 #!/bin/bash -l
 config=$1
+out_suff=$2 # default = "", include _ at start
 ##TODO get all outputs to their own folder? based on baseName?
 
 cd /nrnb/ukb-majithia/
@@ -8,7 +9,7 @@ script_path=sarah/Git/gwas_pipeline/V2/
 
 source ${script_path}Configs/$config ""
 outDir=$(echo ${outDir##*ukb-majithia/})
-ids=${outDir}${baseName}.bolt.jobIDs
+ids=${outDir}${baseName}.bolt$out_suff.jobIDs
 > $ids
 
 ## prep files -------------
@@ -19,7 +20,7 @@ echo "Prep: " $prep >> $ids
 
 ## Run bolt -----------------
 echo "Submitting BOLT"
-bolt=$(sbatch --dependency=afterany:$prep ${script_path}run_bolt.sh $config 1)
+bolt=$(sbatch --dependency=afterany:$prep ${script_path}run_bolt.sh $config 1 $out_suff)
 echo "BOLT: " $bolt >> $ids
 
 echo "Job8a not needed."
@@ -32,7 +33,7 @@ cd /nrnb/ukb-majithia/$script_path
 
 ## Plot results --------
 echo "Submitting Job8b"
-job8b=$(sbatch --dependency=afterany:$bolt job8b_results_plot.sh $config BOLT .bolt_imp.stats.bgen)
+job8b=$(sbatch --dependency=afterany:$bolt job8b_results_plot.sh $config BOLT .bolt_imp$out_suff.stats.bgen $out_suff)
 echo "Job8b: " $job8b >> /nrnb/ukb-majithia/$ids
 
 echo "All jobs submitted"

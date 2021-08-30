@@ -47,7 +47,7 @@ bolt \
     --lmmForceNonInf \
     --LDscoresFile=BOLT-LMM_v2.3.5/tables/LDSCORE.1000G_EUR.tab.gz \
     --numThreads=40 \
-    --statsFile=${outDir}final_stats/${baseName}.bolt.stats
+    --statsFile=${outDir}final_stats/${baseName}.bolt$out_suff.stats
 #    --modelSnps=################# \
 elif [ "$use_imputed_data" -eq 1 ]
 then

@@ -10,6 +10,7 @@
 config=$1
 method=$2 # BOLT or SAIGE
 input=$3 # file type for saige'bgen' or 'vcf' or 'imputed'
+out_suff=$4
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
 source ${script_path}Configs/$config ""
 
@@ -24,17 +25,17 @@ if [ "$method" == "SAIGE" ]
 then
  if [ "$input" == 'bgen' ]
  then
- head -1 ${outDir}final_stats/${baseName}chr1.BGEN.stats > \
- 	${outDir}final_stats/${baseName}combined.BGEN.stats && \
-	tail -n +2 -q ${outDir}final_stats/${baseName}chr*.BGEN.stats >> \
-	${outDir}final_stats/${baseName}combined.BGEN.stats
-	gzip ${outDir}final_stats/${baseName}combined.BGEN.stats
+ head -1 ${outDir}final_stats/${baseName}chr1.BGEN$out_suff.stats > \
+ 	${outDir}final_stats/${baseName}combined.BGEN$out_suff.stats && \
+	tail -n +2 -q ${outDir}final_stats/${baseName}chr*.BGEN$out_suff.stats >> \
+	${outDir}final_stats/${baseName}combined.BGEN$out_suff.stats
+	gzip ${outDir}final_stats/${baseName}combined.BGEN$out_suff.stats
  elif [ "$input" == 'imputed' ]
  then
- head -1 ${outDir}final_stats/${baseName}chr1.IMP.stats > \
- 	${outDir}final_stats/${baseName}combined.IMP.stats && \
-	tail -n +2 -q ${outDir}final_stats/${baseName}chr*.IMP.stats >> \
-	${outDir}final_stats/${baseName}combined.IMP.stats
+ head -1 ${outDir}final_stats/${baseName}chr1.IMP$out_suff.stats > \
+ 	${outDir}final_stats/${baseName}combined.IMP$out_suff.stats && \
+	tail -n +2 -q ${outDir}final_stats/${baseName}chr*.IMP$out_suff.stats >> \
+	${outDir}final_stats/${baseName}combined.IMP$out_suff.stats
 	gzip -f ${outDir}final_stats/${baseName}combined.IMP.stats
  elif [ "$input" == 'vcf' ]
  then
@@ -42,7 +43,7 @@ then
 	${outDir}final_stats${baseName}combined.VCF.stats && \
 	tail -n +2 -q ${outDir}final_stats${baseName}chr*.VCF.stats >> \
 	${outDir}final_stats${baseName}combined.VCF.stats
-	gzip ${outDir}final_stats/${baseName}combined.BGEN.stats
+	gzip ${outDir}final_stats/${baseName}combined.VCF.stats
  else
  echo "Invalid file input for SAIGE:"$input
  fi
