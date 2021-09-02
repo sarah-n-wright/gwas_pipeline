@@ -26,7 +26,7 @@ echo ${SLURM_JOB_ID}" : job1b_select_controls.sh : "$config" : "$(date) >> \
 echo ${SLURM_JOB_ID}" : job1b_select_controls.sh : "$(date) >> \
 	${outDir}${baseName}.track
 
-# create the controls.keepID file
+# create the controls file
 # source ${script_path}sub_select_controls.sh $CONFIG 1 $FILE_SUFF $CONTROL_PER $ICD10_FILE $EXCLUDE_PATT
 
 # Get number of cases
@@ -39,9 +39,11 @@ if [ "$n_cases" > 0 ]; then
 # -----------------------------
 # Exclude any controls with no ICD10 codes
   if [ "$icd10_file" = "" ]; then
-        awk -v outfile=${outDir}${baseName}.controls.phe '{ if ($6==1) {print $1 > outfile}}' ${outDir}${outName}1.$file_suff.fam 
+        awk -v outfile=${outDir}${baseName}.controls.phe \
+	  '{ if ($6==1) {print $1 > outfile}}' ${outDir}${outName}1.$file_suff.fam
   else
-        awk -v outfile=${outDir}${baseName}.controls_temp.phe '{ if ($6==1) {print $1 > outfile}}' ${outDir}${outName}1.$file_suff.fam
+        awk -v outfile=${outDir}${baseName}.controls_temp.phe \
+	  '{ if ($6==1) {print $1 > outfile}}' ${outDir}${outName}1.$file_suff.fam
 	sort -k 1 ${outDir}${baseName}.controls_temp.phe | \
                 join -1 1 -2 1 \
                 $icd10_file - \
@@ -50,9 +52,12 @@ if [ "$n_cases" > 0 ]; then
   fi
 # Exclude comorbidities
   if [ "$exclude_patt" != "" ]; then
-        grep -Ev $exclude_patt $hesin_file | \
-        awk '(NR>1){ a[$1]++ } END { for (b in a) { print b } }' | \
-        sort | join -1 1 -2 1 ${outDir}${baseName}.controls.phe - > \
+        grep -E $exclude_patt $hesin_file | \
+	awk '{ a[$1]++ } END { for (b in a) { print b } }' | \
+	sort > ${outDir}${baseName}.controls.exclude
+
+	grep -v -f ${outDir}${baseName}.controls.exclude \
+		${outDir}${baseName}.controls.phe > \
 		${outDir}${baseName}.controls_temp.phe
 	echo "Controls remaining:"
         wc -l ${outDir}${baseName}.controls_temp.phe
