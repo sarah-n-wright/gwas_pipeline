@@ -1,8 +1,15 @@
 #!/bin/bash -l
+## Minimum files needed to complete:
+#1# {base}combined.LD_pruned.bim/bed/fam OR {base}combined.final./bim/bed/fam
+#1# {base}.imp.phe.cov OR {base}.final.phe.cov
+#2# imputation files OR {out}.final.bgen/bgi
+#2# {out}.saige.sample
+
 script_path=/nrnb/ukb-majithia/sarah/Git/gwas_pipeline/V2/
-#=$0 activate RSAIGE2 environment
+#=$0 activate RSAIGE2 environment; CHECK PCS
 config=$1
 out_suff=$2 # default "", include _
+do_step_1=$3 # 1 for yes
 source ${script_path}Configs/$config ""
 ids=${outDir}${baseName}.saige$out_suff.jobIDs
 > $ids
@@ -15,15 +22,27 @@ export script_path
 
 #conda activate RSAIGE2
 
-## Run SAIGE Step 1 -----------------
-echo "Submitting Step 1"
-step1=$(sbatch run_saige.sh $config 1 1 $out_suff)
-echo "Step1: " $step1 >> $ids
+if [ $do_step_1 -eq 1 ]; then
+  ## Run SAIGE Step 1 -----------------
+  echo "Submitting Step 1"
+  step1=$(sbatch run_saige.sh $config 1 1 $out_suff)
+  echo "Step1: " $step1 >> $ids
 
-## Run SAIGE Step 2 ----------------
-echo "Submitting Step 2"
-step2=$(sbatch --dependency=afterany:$step1 run_saige_step2.sh $config 1 $out_suff)
-echo "Step2: " $step2 >> $ids
+  ## Run SAIGE Step 2 ----------------
+  echo "Submitting Step 2"
+  step2=$(sbatch --dependency=afterany:$step1 run_saige_step2.sh $config 1 $out_suff)
+  echo "Step2: " $step2 >> $ids
+
+elif [ $do_step_1 -eq 0 ]; then
+  ## Run SAIGE Step 2 ----------------
+  echo "Submitting Step 2"
+  step2=$(sbatch run_saige_step2.sh $config 1 $out_suff)
+  echo "Step2: " $step2 >> $ids
+else
+  echo "Please specify 'do_step_1'"
+
+fi
+
 
 ## Combine stats files -------------------
 echo "Submitting Job8a"
@@ -48,3 +67,5 @@ echo "Summary: " $job_end >> $ids
 cat $ids
 
 echo $job_list
+
+

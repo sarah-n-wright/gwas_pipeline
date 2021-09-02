@@ -36,7 +36,7 @@ job3b=$(sbatch --dependency=afterany:$job3a job3b_missing_indiv.sh $config)
 echo "Job3b: " $job3b >> $ids
 
 echo "Submitting Job3c"
-job3c=$(sbatch --dependency=afterany:$job3b job3c_preLD.sh $config)
+job3c=$(sbatch --dependency=afterany:$job3b job3c_preLD.sh $config 0)
 echo "Job3c: " $job3c >> $ids
 
 ## LD -------------

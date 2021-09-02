@@ -1,4 +1,15 @@
 #!/bin/bash -l
+## Files required
+# genetic_map
+# LD ref file
+# bgenSampleFileList_bolt.txt
+# {base}chr*.excludeVAR
+# {base}chr{1:22}.final.bim/bed/fam
+# {base}.final.removeID
+# {base}.final.phe.fam
+# {base}combined.all_covariates.tsv
+
+#=$0 CHECK PCS
 config=$1
 out_suff=$2 # default = "", include _ at start
 ##TODO get all outputs to their own folder? based on baseName?

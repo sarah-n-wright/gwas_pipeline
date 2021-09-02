@@ -63,7 +63,6 @@ bolt \
     --covarFile=${outDir}${baseName}combined.all_covariates.tsv \
     --covarCol=SEX \
     --qCovarCol=Age \
-    --qCovarCol=PC{1:5} \
     --bgenMinMAF=0.001 \
     --bgenMinINFO=0.8 \
     --geneticMapFile=$g_map \
@@ -74,7 +73,8 @@ bolt \
     --statsFileBgenSnps=${outDir}final_stats/${baseName}.bolt_imp$out_suff.stats.bgen.gz \
     --noBgenIDcheck \
     --verboseStats \
-    --remove=${outDir}${baseName}.notInImputed.removeID
+    --remove=${outDir}${baseName}.notInImputed.removeID \
+    --qCovarCol=PC{1:5}
 
 else
 	echo "invalid value for use_imputed_data"

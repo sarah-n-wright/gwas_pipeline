@@ -19,6 +19,12 @@ echo ${SLURM_JOB_ID}" : job6_pca.sh : "$config" : "$(date) >> \
 echo ${SLURM_JOB_ID}" : job6_pca.sh : "$(date) >> \
         ${outDir}${baseName}.track
 
+FILE=${outDir}${baseName}.king.keepID
+if [ ! -f "$FILE" ]; then
+ echo "No king file found."
+ cp ${outDir}${baseName}.miss.keepID ${outDir}${baseName}.king.keepID
+fi
+
 grep -w -f /nrnb/ukb-majithia/data/phenotypes/ukb_f22006_white_caucasian_eids.txt \
         ${outDir}${baseName}.king.keepID > ${outDir}${baseName}.temp.keepID
 

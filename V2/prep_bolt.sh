@@ -3,9 +3,9 @@
 #SBATCH --output /cellar/users/snwright/Data/SlurmOut/prep_bolt_%A.out
 #SBATCH --partition=nrnb-compute
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
+#SBATCH --mem=500M
 #SBATCH --parsable
-#SBATCH --time=1:00:00
+#SBATCH --time=00:05:00
 #SBATCH --array=0-21
 
 config=$1
